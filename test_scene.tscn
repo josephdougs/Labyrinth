@@ -1,0 +1,97 @@
+[gd_scene load_steps=7 format=3 uid="uid://cxr3a66r2j54d"]
+
+[ext_resource type="PackedScene" uid="uid://bsssh8brncjf8" path="res://ball.tscn" id="1_3dxiq"]
+[ext_resource type="Script" path="res://ball.gd" id="2_lfvrm"]
+[ext_resource type="PackedScene" uid="uid://c0opq0tdtn4xy" path="res://playarea2.tscn" id="4_15mec"]
+[ext_resource type="Script" path="res://playarea.gd" id="4_dapuh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5cf1y"]
+size = Vector3(100, 10, 100)
+
+[sub_resource type="LabelSettings" id="LabelSettings_eo0wj"]
+font_size = 40
+
+[node name="Node3D" type="Node3D"]
+
+[node name="ball" parent="." node_paths=PackedStringArray("playarea") instance=ExtResource("1_3dxiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0896, 1.06022, -9.97539)
+script = ExtResource("2_lfvrm")
+playarea = NodePath("../playarea")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 30, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.6118, 67.1341, 37.3933)
+omni_range = 142.914
+omni_attenuation = -0.055
+
+[node name="playarea" parent="." instance=ExtResource("4_15mec")]
+script = ExtResource("4_dapuh")
+
+[node name="Killbox" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Killbox"]
+shape = SubResource("BoxShape3D_5cf1y")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -79.5
+offset_right = 79.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="YouLose" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.836
+anchor_right = -1.836
+offset_left = -210.576
+offset_top = -70.0
+offset_right = 1019.42
+offset_bottom = 487.0
+text = "You lose!
+Press \"R\" to restart and try again :)"
+label_settings = SubResource("LabelSettings_eo0wj")
+horizontal_alignment = 1
+
+[node name="WelcomeLabel" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.836
+anchor_right = -1.836
+offset_left = -1571.58
+offset_top = -121.0
+offset_right = 2500.42
+offset_bottom = 436.0
+text = "Welcome to Labyrinth!
+The goal of the game is to get the ball from the \"Start\" position to the \"End\" position.
+Click the mouse to gain control, and click again to freeze.
+Press \"R\" to restart the game."
+label_settings = SubResource("LabelSettings_eo0wj")
+horizontal_alignment = 1
+
+[node name="YouWon" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.836
+anchor_right = -1.836
+offset_left = -222.576
+offset_top = -98.0
+offset_right = 1007.42
+offset_bottom = 459.0
+text = "You Win!
+May you be eternally satisfied."
+label_settings = SubResource("LabelSettings_eo0wj")
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="Killbox" to="ball" method="_on_killbox_body_entered"]

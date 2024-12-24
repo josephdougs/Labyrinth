@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci5dgc0xtgsfg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sh1mw"]
+size = Vector3(30, 1, 30)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+skeleton = NodePath("../..")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="RigidBody3D/MeshInstance3D"]
+mesh = SubResource("BoxMesh_sh1mw")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="RigidBody3D/MeshInstance3D/CSGMesh3D"]
+size = Vector3(30, 1, 30)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="RigidBody3D/MeshInstance3D/CSGMesh3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00113297, -0.0030818, -0.00582981)
+operation = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/MeshInstance3D"]
